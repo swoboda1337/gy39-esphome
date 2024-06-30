@@ -1,11 +1,11 @@
 Example yaml to use in esphome device config:
 
-external_components:
-  - source:
-      type: git
-      url: https://github.com/swoboda1337/gy39-esphome
-      ref: main
-    refresh: 1d
+    external_components:
+      - source:
+          type: git
+          url: https://github.com/swoboda1337/gy39-esphome
+          ref: main
+        refresh: 1d
 
     sensor:
       - platform: gy39
