@@ -65,6 +65,7 @@ void GY39::update() {
   if (this->lux_sensor_ != nullptr) {
     this->lux_sensor_->publish_state(lux);
   }
+  this->status_clear_warning();
 }
 
 void GY39::dump_config() {
