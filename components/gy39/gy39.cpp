@@ -63,7 +63,7 @@ void GY39::update() {
     this->altitude_sensor_->publish_state(altitude);
   }
   if (this->lux_sensor_ != nullptr) {
-    this->lux_sensor_->publish_state(lux);
+    this->lux_sensor_->publish_state(lux / 100.0f);
   }
   this->status_clear_warning();
 }
