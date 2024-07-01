@@ -9,45 +9,28 @@ namespace gy39 {
 static const char *const TAG = "gy39";
 
 void GY39::update() {
-  uint8_t data[10];
+  uint8_t data[14];
 
   // read data
-  data[0] = 0x04;
+  data[0] = 14;
   if (this->write(data, 1) != i2c::ERROR_OK) {
     ESP_LOGE(TAG, "Write failed!");
     this->mark_failed();
     return;
   }
-  if (this->read(data, 10) != i2c::ERROR_OK) {
+  if (this->read(data, 14) != i2c::ERROR_OK) {
     ESP_LOGE(TAG, "Read failed!");
     this->mark_failed();
     return;
   }
-
-  // convert
-  int16_t temperature = (data[0] << 8) | data[1];
-  int32_t pressure = (data[2] << 24) | (data[3] << 16) | (data[4] << 8) | data[5];
-  int16_t humidity = (data[6] << 8) | data[7];
-  int16_t altitude = (data[8] << 8) | data[9];
-
-  // is this delay needed?
-  delay(1);
-
-  // read data
-  data[0] = 0x00;
-  if (this->write(data, 1) != i2c::ERROR_OK) {
-    ESP_LOGE(TAG, "Write failed!");
-    this->mark_failed();
-    return;
-  }
-  if (this->read(data, 4) != i2c::ERROR_OK) {
-    ESP_LOGE(TAG, "Read failed!");
-    this->mark_failed();
-    return;
-  }
+  ESP_LOGD(TAG, "Raw data: %s", format_hex(data, 14).c_str());
 
   // convert
   int32_t lux = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
+  int16_t temperature = (data[4] << 8) | data[5];
+  int32_t pressure = (data[6] << 24) | (data[7] << 16) | (data[8] << 8) | data[9];
+  int16_t humidity = (data[10] << 8) | data[11];
+  int16_t altitude = (data[12] << 8) | data[13];
 
   // update sensors
   if (this->temperature_sensor_ != nullptr) {
