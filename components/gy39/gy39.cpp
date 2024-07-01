@@ -57,7 +57,7 @@ void GY39::update() {
     this->humidity_sensor_->publish_state(humidity / 100.0f);
   }
   if (this->pressure_sensor_ != nullptr) {
-    this->pressure_sensor_->publish_state(pressure);
+    this->pressure_sensor_->publish_state(pressure / 100.0f);
   }
   if (this->altitude_sensor_ != nullptr) {
     this->altitude_sensor_->publish_state(altitude);
